@@ -1,6 +1,3 @@
-'use client';
-
-import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 const floatingItems = [
@@ -14,7 +11,7 @@ const floatingItems = [
   { className: 'shape-heart animate-drift', top: '34%', left: '36%', delay: '0.7s' }
 ];
 
-export default function Home() {
+function App() {
   const [musicOn, setMusicOn] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -26,15 +23,17 @@ export default function Home() {
   const toggleMusic = () => {
     const audio = audioRef.current;
     if (!audio) return;
+
     if (musicOn) {
       audio.pause();
       setMusicOn(false);
-    } else {
-      audio
-        .play()
-        .then(() => setMusicOn(true))
-        .catch(() => setMusicOn(false));
+      return;
     }
+
+    audio
+      .play()
+      .then(() => setMusicOn(true))
+      .catch(() => setMusicOn(false));
   };
 
   return (
@@ -58,16 +57,13 @@ export default function Home() {
         >
           {`Музыка: ${musicOn ? 'вкл' : 'выкл'}`}
         </button>
-        {/* /audio/intro.mp3 audio source */}
         <audio ref={audioRef} src="/audio/intro.mp3" />
       </div>
 
       <section className="relative z-10 flex max-w-5xl flex-col items-center gap-8 rounded-3xl bg-white/15 px-8 py-10 shadow-2xl shadow-slate-900/20 backdrop-blur-lg md:px-12">
         <header className="animate-fadeIn space-y-4">
           <p className="text-sm uppercase tracking-[0.35em] text-white/80">добро пожаловать</p>
-          <h1 className="text-4xl font-black text-white drop-shadow-lg md:text-6xl">
-            ВЕЧЕРИНКА STITCH PARTY CHALLENGE
-          </h1>
+          <h1 className="text-4xl font-black text-white drop-shadow-lg md:text-6xl">ВЕЧЕРИНКА STITCH PARTY CHALLENGE</h1>
           <p className="text-lg text-white/90 md:text-2xl">
             Сегодня не просто день рождения.
             <br />
@@ -79,14 +75,13 @@ export default function Home() {
           <div className="relative flex items-center justify-center">
             <div className="absolute -left-10 -top-10 h-24 w-24 rounded-full bg-white/20 blur-2xl md:h-32 md:w-32" />
             <div className="absolute -right-8 bottom-0 h-20 w-20 rounded-full bg-party-accent/30 blur-2xl md:h-28 md:w-28" />
-            {/* /images/mascot.png mascot image */}
-            <Image
+            <img
               src="/images/mascot.png"
               alt="Маскот вечеринки"
               width={280}
               height={280}
               className="animate-float drop-shadow-2xl"
-              priority
+              loading="eager"
             />
           </div>
 
@@ -106,7 +101,6 @@ export default function Home() {
           <button
             className="animate-pulseGlow rounded-full bg-party-accent px-10 py-4 text-xl font-extrabold uppercase tracking-wide text-white shadow-2xl shadow-party-accent/40 transition hover:scale-105 active:translate-y-[1px] md:px-14 md:py-5 md:text-2xl"
             onClick={() => {
-              // Start the party button handler
               console.log('Start the party clicked');
             }}
           >
@@ -118,3 +112,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default App;
