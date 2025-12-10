@@ -119,6 +119,24 @@
   box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.06);
 }
 
+.party-welcome-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+}
+
+.party-welcome-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 1.6rem 1.8rem;
+  color: #1f2937;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.16);
+  max-width: 480px;
+  min-width: 260px;
+}
+
 .party-start-button {
   animation: pulse 3.2s ease-in-out infinite;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
