@@ -1,4 +1,14 @@
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '/operation-birthday';
+const normalizeBasePath = (value) => {
+  if (!value || !value.trim()) {
+    return '/operation-birthday';
+  }
+
+  const trimmed = value.trim();
+
+  return trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+};
+
+const basePath = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
