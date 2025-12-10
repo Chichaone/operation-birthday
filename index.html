@@ -10,25 +10,15 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
   </head>
-  <body>
+  <body class="bg-gradient-to-b from-sky-200 via-blue-400 to-blue-700 min-h-screen">
     <div id="root"></div>
 
-    <script type="text/babel" data-presets="typescript,react">
+    <script type="text/babel" data-presets="react">
       const { useEffect, useMemo, useRef, useState } = React;
 
-      type FloatingShape = {
-        type: "circle" | "star" | "diamond" | "heart";
-        left: string;
-        top: string;
-        size: number;
-        duration: number;
-        delay: number;
-        opacity?: number;
-      };
-
-      const Header: React.FC = () => (
-        <header className="text-center mt-8 space-y-3">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-wide drop-shadow-sm text-white">
+      const Header = () => (
+        <header className="text-center mt-8 space-y-3 text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-wide drop-shadow-sm">
             ВЕЧЕРИНКА STITCH PARTY CHALLENGE
           </h1>
           <p className="text-lg md:text-xl lg:text-2xl text-white/90 leading-snug max-w-2xl mx-auto">
@@ -39,7 +29,7 @@
         </header>
       );
 
-      const Mascot: React.FC = () => (
+      const Mascot = () => (
         <div className="relative flex flex-col items-center">
           <div className="party-mascot-wrapper drop-shadow-2xl">
             {/* Используем изображение из public/images/mascot.png */}
@@ -48,7 +38,7 @@
         </div>
       );
 
-      const SpeechBubble: React.FC = () => (
+      const SpeechBubble = () => (
         <div className="party-speech-bubble mt-6 text-base md:text-lg lg:text-xl font-medium max-w-xl text-center">
           Привет! Если ты здесь, значит ты готова:
           <br />🔥 танцевать
@@ -58,7 +48,7 @@
         </div>
       );
 
-      const StartButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+      const StartButton = ({ onClick }) => (
         <div className="mt-8 flex flex-col items-center gap-2">
           {/* onClick для кнопки «НАЧАТЬ ВЕЧЕРИНКУ», здесь позже добавим переход */}
           <button
@@ -71,7 +61,7 @@
         </div>
       );
 
-      const MusicToggle: React.FC<{ isPlaying: boolean; onToggle: () => void }> = ({ isPlaying, onToggle }) => (
+      const MusicToggle = ({ isPlaying, onToggle }) => (
         <div className="absolute top-4 right-4">
           <button
             onClick={onToggle}
@@ -82,12 +72,12 @@
         </div>
       );
 
-      const App: React.FC = () => {
-        const audioRef = useRef<HTMLAudioElement | null>(null);
+      const App = () => {
+        const audioRef = useRef(null);
         const [isMusicOn, setIsMusicOn] = useState(false);
         const [isVisible, setIsVisible] = useState(false);
 
-        const floatingShapes = useMemo<FloatingShape[]>(
+        const floatingShapes = useMemo(
           () => [
             { type: "circle", left: "8%", top: "10%", size: 10, duration: 16, delay: 0 },
             { type: "star", left: "20%", top: "35%", size: 14, duration: 18, delay: 2 },
@@ -128,7 +118,10 @@
         };
 
         return (
-          <div className={`party-background min-h-screen flex flex-col relative overflow-hidden`}>
+          <div
+            className={`party-background min-h-screen flex flex-col relative overflow-hidden bg-gradient-to-b from-sky-200 via-blue-400 to-blue-700`}
+            style={{ background: "linear-gradient(180deg, #8ec5ff 0%, #4a74d9 100%)" }}
+          >
             {/* Используем аудиофайл из public/audio/intro.mp3 */}
             <audio ref={audioRef} src="/audio/intro.mp3" className="hidden" />
 
@@ -155,7 +148,7 @@
             <div className={`flex flex-col items-center flex-1 px-4 pb-12 party-fade-in ${isVisible ? "party-fade-in-visible" : ""}`}>
               <Header />
 
-              <main className="flex flex-col items-center justify-center flex-1 w-full">
+              <main className="flex flex-col items-center justify-center flex-1 w-full text-white">
                 <Mascot />
                 <SpeechBubble />
                 <StartButton onClick={handleStart} />

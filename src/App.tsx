@@ -113,7 +113,10 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`party-background min-h-screen flex flex-col relative overflow-hidden`}>
+    <div
+      className={`party-background min-h-screen flex flex-col relative overflow-hidden bg-gradient-to-b from-sky-200 via-blue-400 to-blue-700`}
+      style={{ background: "linear-gradient(180deg, #8ec5ff 0%, #4a74d9 100%)" }}
+    >
       {/* Используем аудиофайл из public/audio/intro.mp3 */}
       <audio ref={audioRef} src="/audio/intro.mp3" className="hidden" />
 
