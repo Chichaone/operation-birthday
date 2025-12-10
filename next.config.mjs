@@ -1,9 +1,11 @@
 const normalizeBasePath = (value) => {
-  if (!value || value === '/') return '';
+  if (!value || !value.trim()) {
+    return '/operation-birthday';
+  }
 
-  const withLeadingSlash = value.startsWith('/') ? value : `/${value}`;
+  const trimmed = value.trim();
 
-  return withLeadingSlash.replace(/\/+$/, '');
+  return trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
 };
 
 const basePath = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
