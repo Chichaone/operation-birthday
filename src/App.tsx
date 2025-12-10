@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import styles from "./App.module.css";
+import "./App.css";
 
 type FloatingShape = {
   type: "circle" | "star" | "diamond" | "heart";
@@ -26,7 +26,7 @@ const Header: React.FC = () => (
 
 const Mascot: React.FC = () => (
   <div className="relative flex flex-col items-center">
-    <div className={`${styles.mascotWrapper} drop-shadow-2xl`}>
+    <div className="party-mascot-wrapper drop-shadow-2xl">
       {/* Используем изображение из public/images/mascot.png */}
       <img src="/images/mascot.png" alt="Маскот вечеринки" className="w-60 md:w-72 lg:w-80" />
     </div>
@@ -34,7 +34,7 @@ const Mascot: React.FC = () => (
 );
 
 const SpeechBubble: React.FC = () => (
-  <div className={`${styles.speechBubble} mt-6 text-base md:text-lg lg:text-xl font-medium max-w-xl text-center`}>
+  <div className="party-speech-bubble mt-6 text-base md:text-lg lg:text-xl font-medium max-w-xl text-center">
     Привет! Если ты здесь, значит ты готова:
     <br />🔥 танцевать
     <br />🎯 соревноваться
@@ -48,7 +48,7 @@ const StartButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     {/* onClick для кнопки «НАЧАТЬ ВЕЧЕРИНКУ», здесь позже добавим переход */}
     <button
       onClick={onClick}
-      className={`${styles.startButton} px-10 py-4 rounded-full bg-pink-500 hover:bg-pink-400 text-2xl md:text-3xl font-bold uppercase tracking-wide text-white shadow-xl transform`}
+      className={`party-start-button px-10 py-4 rounded-full bg-pink-500 hover:bg-pink-400 text-2xl md:text-3xl font-bold uppercase tracking-wide text-white shadow-xl transform`}
     >
       НАЧАТЬ ВЕЧЕРИНКУ
     </button>
@@ -60,7 +60,7 @@ const MusicToggle: React.FC<{ isPlaying: boolean; onToggle: () => void }> = ({ i
   <div className="absolute top-4 right-4">
     <button
       onClick={onToggle}
-      className={`${styles.musicToggle} px-4 py-2 text-sm md:text-base rounded-full bg-white/20 text-white border border-white/40 shadow-md hover:shadow-lg transition`}
+      className={`party-music-toggle px-4 py-2 text-sm md:text-base rounded-full bg-white/20 text-white border border-white/40 shadow-md hover:shadow-lg transition`}
     >
       Музыка: {isPlaying ? "вкл" : "выкл"}
     </button>
@@ -113,15 +113,15 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`${styles.background} min-h-screen flex flex-col relative overflow-hidden`}>
+    <div className={`party-background min-h-screen flex flex-col relative overflow-hidden`}>
       {/* Используем аудиофайл из public/audio/intro.mp3 */}
       <audio ref={audioRef} src="/audio/intro.mp3" className="hidden" />
 
-      <div className={styles.decorations} aria-hidden={true}>
+      <div className="party-decorations" aria-hidden={true}>
         {floatingShapes.map((shape, index) => (
           <span
             key={`${shape.type}-${index}`}
-            className={`${styles.floatingElement} ${styles[shape.type]}`}
+            className={`party-floating-element party-${shape.type}`}
             style={{
               left: shape.left,
               top: shape.top,
@@ -137,7 +137,7 @@ const App: React.FC = () => {
 
       <MusicToggle isPlaying={isMusicOn} onToggle={handleToggleMusic} />
 
-      <div className={`flex flex-col items-center flex-1 px-4 pb-12 ${styles.fadeIn} ${isVisible ? styles.fadeInVisible : ""}`}>
+      <div className={`flex flex-col items-center flex-1 px-4 pb-12 party-fade-in ${isVisible ? "party-fade-in-visible" : ""}`}>
         <Header />
 
         <main className="flex flex-col items-center justify-center flex-1 w-full">
