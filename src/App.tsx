@@ -33,13 +33,15 @@ const Mascot: React.FC = () => (
   </div>
 );
 
-const SpeechBubble: React.FC = () => (
-  <div className="party-speech-bubble mt-6 text-base md:text-lg lg:text-xl font-medium max-w-xl text-center">
-    Привет! Если ты здесь, значит ты готова:
-    <br />🔥 танцевать
-    <br />🎯 соревноваться
-    <br />😂 смеяться
-    <br />и получать сюрпризы!
+const WelcomeCard: React.FC = () => (
+  <div className="party-welcome-card text-base md:text-lg lg:text-xl font-medium">
+    <p>
+      Привет! Если вы здесь, значит вы готовы:
+      <br />🔥 танцевать
+      <br />🎯 соревноваться
+      <br />😂 смеяться
+      <br />и получать сюрпризы!
+    </p>
   </div>
 );
 
@@ -78,9 +80,11 @@ const WelcomeScreen: React.FC<{ isVisible: boolean; isExiting: boolean; onStart:
   >
     <Header />
 
-    <main className="flex flex-col items-center justify-center flex-1 w-full">
-      <Mascot />
-      <SpeechBubble />
+    <main className="flex flex-col items-center justify-center flex-1 w-full gap-8">
+      <div className="party-welcome-row">
+        <Mascot />
+        <WelcomeCard />
+      </div>
       <StartButton onClick={onStart} />
     </main>
   </div>
@@ -94,7 +98,6 @@ type TeamsScreenProps = {
   teamStitch: string[];
   teamHawaii: string[];
   onShuffleAgain: () => void;
-  onNext: () => void;
 };
 
 const TeamsScreen: React.FC<TeamsScreenProps> = ({
@@ -105,7 +108,6 @@ const TeamsScreen: React.FC<TeamsScreenProps> = ({
   teamStitch,
   teamHawaii,
   onShuffleAgain,
-  onNext,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -209,12 +211,6 @@ const TeamsScreen: React.FC<TeamsScreenProps> = ({
             >
               ПЕРЕМЕШАТЬ ЕЩЁ РАЗ
             </button>
-            <button
-              onClick={onNext}
-              className="px-6 py-3 rounded-full bg-green-500 hover:bg-green-400 text-white font-semibold shadow-lg transition"
-            >
-              ПЕРЕЙТИ К КОНКУРСАМ
-            </button>
           </div>
         )}
       </div>
@@ -227,7 +223,7 @@ const App: React.FC = () => {
   const [isMusicOn, setIsMusicOn] = useState(false);
   const [welcomeVisible, setWelcomeVisible] = useState(false);
   const [welcomeExiting, setWelcomeExiting] = useState(false);
-  const [currentScreen, setCurrentScreen] = useState<"welcome" | "teams" | "challenges">("welcome");
+  const [currentScreen, setCurrentScreen] = useState<"welcome" | "teams">("welcome");
   const [players, setPlayers] = useState<string[]>(["", "", "", "", "", ""]);
   const [teamStitch, setTeamStitch] = useState<string[]>([]);
   const [teamHawaii, setTeamHawaii] = useState<string[]>([]);
@@ -314,11 +310,6 @@ const App: React.FC = () => {
     setTeamHawaii(shuffled.slice(midpoint));
   };
 
-  const handleGoToChallenges = () => {
-    // Переход к конкурсам
-    setCurrentScreen("challenges");
-  };
-
   return (
     <div
       className={`party-background min-h-screen flex flex-col relative overflow-hidden bg-gradient-to-b from-sky-200 via-blue-400 to-blue-700`}
@@ -360,17 +351,7 @@ const App: React.FC = () => {
           teamStitch={teamStitch}
           teamHawaii={teamHawaii}
           onShuffleAgain={handleShuffleAgain}
-          onNext={handleGoToChallenges}
         />
-      )}
-
-      {currentScreen === "challenges" && (
-        <div className="flex flex-col flex-1 items-center justify-center text-center text-white party-fade-in party-fade-in-visible px-4 pb-12">
-          <h2 className="text-4xl md:text-5xl font-extrabold drop-shadow">Скоро конкурсы!</h2>
-          <p className="mt-4 text-lg md:text-xl text-white/85 max-w-2xl">
-            Команды готовы — осталось подготовить испытания. Stay tuned ✨
-          </p>
-        </div>
       )}
     </div>
   );
