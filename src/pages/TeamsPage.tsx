@@ -11,33 +11,56 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return newArray;
 };
 
-const TeamsPage = () => {
-  const [players, setPlayers] = useState<string[]>([""]);
-  const [teamStitch, setTeamStitch] = useState<string[]>([]);
-  const [teamHawaii, setTeamHawaii] = useState<string[]>([]);
+type TeamsPageProps = {
+  players: string[];
+  setPlayers: React.Dispatch<React.SetStateAction<string[]>>;
+  teamStitch: string[];
+  setTeamStitch: React.Dispatch<React.SetStateAction<string[]>>;
+  teamHawaii: string[];
+  setTeamHawaii: React.Dispatch<React.SetStateAction<string[]>>;
+  team1Name: string;
+  setTeam1Name: React.Dispatch<React.SetStateAction<string>>;
+  team2Name: string;
+  setTeam2Name: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const TeamsPage: React.FC<TeamsPageProps> = ({
+  players,
+  setPlayers,
+  teamStitch,
+  setTeamStitch,
+  teamHawaii,
+  setTeamHawaii,
+  team1Name,
+  setTeam1Name,
+  team2Name,
+  setTeam2Name,
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Плавное появление страницы
     const timeout = setTimeout(() => setIsVisible(true), 50);
     return () => clearTimeout(timeout);
   }, []);
 
   const handlePlayerChange = (index: number, value: string) => {
-    const updatedPlayers = [...players];
-    updatedPlayers[index] = value;
-    setPlayers(updatedPlayers);
+    setPlayers((prev) => {
+      const updated = [...prev];
+      updated[index] = value;
+      return updated;
+    });
   };
 
   const handleAddPlayer = () => {
-    setPlayers([...players, ""]);
+    setPlayers((prev) => [...prev, ""]);
   };
 
   const handleRemoveLastPlayer = () => {
-    if (players.length > 1) {
-      setPlayers(players.slice(0, -1));
-    }
+    setPlayers((prev) => {
+      if (prev.length <= 1) return prev;
+      return prev.slice(0, -1);
+    });
   };
 
   const handleClearList = () => {
@@ -61,6 +84,8 @@ const TeamsPage = () => {
 
   const handleShuffleAgain = () => {
     const allPlayers = [...teamStitch, ...teamHawaii];
+    if (allPlayers.length === 0) return;
+
     const shuffled = shuffleArray(allPlayers);
     const middle = Math.ceil(shuffled.length / 2);
     setTeamStitch(shuffled.slice(0, middle));
@@ -75,119 +100,147 @@ const TeamsPage = () => {
 
   return (
     <div
-      className={`flex flex-col flex-1 px-4 py-12 md:py-16 lg:py-20 items-center party-fade-in ${
-        isVisible ? "party-fade-in-visible" : ""
-      }`}
+      className={`party-teams-page party-fade-in ${isVisible ? "party-fade-in-visible" : ""
+        }`}
     >
-      <div className="max-w-4xl w-full text-center text-white space-y-6">
-        <div className="space-y-2">
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight drop-shadow-sm">СОСТАВЛЯЕМ КОМАНДЫ 💙</h2>
-          <p className="text-lg md:text-xl text-white/90">Введите имена участниц и нажмите «Разделить на команды»</p>
-        </div>
+      <div className="party-teams-inner">
+        <header className="party-teams-header">
+          <h2 className="party-title">СОСТАВЛЯЕМ КОМАНДЫ 💙</h2>
+          <p className="party-subtitle">
+            Введите имена участников и нажмите «Разделить на команды»
+          </p>
+        </header>
 
         {/* Динамический список полей ввода */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-          {players.map((player, index) => (
-            <input
-              key={index}
-              value={player}
-              onChange={(e) => handlePlayerChange(index, e.target.value)}
-              placeholder={`Участница ${index + 1}`}
-              className="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-900 placeholder-gray-500 shadow-md focus:outline-none focus:ring-2 focus:ring-pink-400 text-lg"
-            />
-          ))}
-        </div>
+        <section className="party-teams-input-section">
+          <div className="party-input-grid">
+            {players.map((player, index) => (
+              <input
+                key={index}
+                value={player}
+                onChange={(e) => handlePlayerChange(index, e.target.value)}
+                placeholder={`Участник ${index + 1}`}
+                className="party-input"
+              />
+            ))}
+          </div>
 
-        {/* Кнопки для управления списком */}
-        <div className="flex flex-wrap gap-3 justify-center">
-          <button
-            onClick={handleAddPlayer}
-            className="px-6 py-3 rounded-full bg-white/25 hover:bg-white/35 text-white font-semibold border border-white/40 shadow-lg transition"
-          >
-            Добавить участницу
-          </button>
-          <button
-            onClick={handleRemoveLastPlayer}
-            disabled={players.length <= 1}
-            className="px-6 py-3 rounded-full bg-white/25 hover:bg-white/35 text-white font-semibold border border-white/40 shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Удалить последнюю
-          </button>
-        </div>
+          {/* Кнопки для управления списком */}
+          <div className="party-teams-list-buttons">
+            <button
+              onClick={handleAddPlayer}
+              className="party-button party-btn-gray"
+            >
+              Добавить участника
+            </button>
+            <button
+              onClick={handleRemoveLastPlayer}
+              disabled={players.length <= 1}
+              className="party-button party-btn-gray"
+            >
+              Удалить последнего
+            </button>
+          </div>
 
-        {/* Основные кнопки действий */}
-        <div className="flex flex-wrap gap-3 justify-center pt-4">
-          <button
-            onClick={handleDivideTeams}
-            className="px-8 py-4 rounded-full bg-pink-500 hover:bg-pink-400 text-white font-bold text-xl shadow-lg transition"
-          >
-            РАЗДЕЛИТЬ НА КОМАНДЫ
-          </button>
-          <button
-            onClick={handleClearList}
-            className="px-8 py-4 rounded-full bg-white/25 hover:bg-white/35 text-white font-semibold text-xl border border-white/40 shadow-lg transition"
-          >
-            ОЧИСТИТЬ СПИСОК
-          </button>
-        </div>
+          {/* Основные кнопки действий */}
+          <div className="party-teams-main-buttons">
+            <button
+              onClick={handleDivideTeams}
+              className="party-button party-btn-blue"
+            >
+              РАЗДЕЛИТЬ НА КОМАНДЫ
+            </button>
+            <button
+              onClick={handleClearList}
+              className="party-button party-btn-gray"
+            >
+              ОЧИСТИТЬ СПИСОК
+            </button>
+          </div>
+
+          {/* Редактирование названий команд */}
+          <section className="party-teams-names-section" style={{ marginTop: "2rem", width: "100%", maxWidth: "500px" }}>
+            <h3 style={{ color: "white", textAlign: "center", marginBottom: "1rem" }}>Названия команд</h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <input
+                value={team1Name}
+                onChange={(e) => setTeam1Name(e.target.value)}
+                className="party-input"
+                placeholder="Название первой команды"
+              />
+              <input
+                value={team2Name}
+                onChange={(e) => setTeam2Name(e.target.value)}
+                className="party-input"
+                placeholder="Название второй команды"
+              />
+            </div>
+          </section>
+        </section>
 
         {/* Отображение команд */}
         {showTeams && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 pt-6 party-team-grid">
-            {/* Карточка Команды Стича */}
-            <div className="bg-white/90 text-sky-900 rounded-2xl p-6 shadow-2xl party-team-card">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">💙</span>
-                <div>
-                  <h3 className="text-2xl font-bold">Команда Стича</h3>
-                  <p className="text-sm text-sky-800/80">Очки: 0</p>
+          <>
+            <section className="party-team-grid">
+              {/* Команда Стича */}
+              <div className="party-team-card party-team-card-stitch">
+                <div className="party-team-card-header">
+                  <span className="party-team-emoji">💙</span>
+                  <div>
+                    <h3 className="party-team-title">{team1Name}</h3>
+                    <p className="party-team-score-label">Очки: 0</p>
+                  </div>
                 </div>
+                <ul className="party-team-list">
+                  {teamStitch.map((name, idx) => (
+                    <li
+                      key={idx}
+                      className="party-team-list-item party-team-list-item-stitch"
+                    >
+                      {name}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="space-y-2 text-left text-lg font-semibold">
-                {teamStitch.map((name, idx) => (
-                  <li key={idx} className="px-3 py-2 rounded-lg bg-sky-100 text-sky-900">
-                    {name}
-                  </li>
-                ))}
-              </ul>
-            </div>
 
-            {/* Карточка Команды Гавайев */}
-            <div className="bg-white/90 text-emerald-900 rounded-2xl p-6 shadow-2xl party-team-card">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">🌴</span>
-                <div>
-                  <h3 className="text-2xl font-bold">Команда Гавайев</h3>
-                  <p className="text-sm text-emerald-800/80">Очки: 0</p>
+              {/* Команда Гавайев */}
+              <div className="party-team-card party-team-card-hawaii">
+                <div className="party-team-card-header">
+                  <span className="party-team-emoji">🌴</span>
+                  <div>
+                    <h3 className="party-team-title">{team2Name}</h3>
+                    <p className="party-team-score-label">Очки: 0</p>
+                  </div>
                 </div>
+                <ul className="party-team-list">
+                  {teamHawaii.map((name, idx) => (
+                    <li
+                      key={idx}
+                      className="party-team-list-item party-team-list-item-hawaii"
+                    >
+                      {name}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="space-y-2 text-left text-lg font-semibold">
-                {teamHawaii.map((name, idx) => (
-                  <li key={idx} className="px-3 py-2 rounded-lg bg-emerald-100 text-emerald-900">
-                    {name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
+            </section>
 
-        {/* Кнопки под командами */}
-        {showTeams && (
-          <div className="flex flex-wrap gap-3 justify-center pt-6">
-            <button
-              onClick={handleShuffleAgain}
-              className="px-6 py-3 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-lg transition"
-            >
-              ПЕРЕМЕШАТЬ ЕЩЁ РАЗ
-            </button>
-            <button
-              onClick={handleNavigateToChallenges}
-              className="px-6 py-3 rounded-full bg-green-600 hover:bg-green-500 text-white font-semibold shadow-lg transition"
-            >
-              ПЕРЕЙТИ К КОНКУРСАМ
-            </button>
-          </div>
+            {/* Кнопки под командами */}
+            <div className="party-team-actions">
+              <button
+                onClick={handleShuffleAgain}
+                className="party-button party-btn-blue"
+              >
+                ПЕРЕМЕШАТЬ ЕЩЁ РАЗ
+              </button>
+              <button
+                onClick={handleNavigateToChallenges}
+                className="party-button party-btn-green"
+              >
+                ПЕРЕЙТИ К КОНКУРСАМ
+              </button>
+            </div>
+          </>
         )}
       </div>
     </div>
