@@ -14,7 +14,7 @@ const DANCE_ROUNDS: DanceRound[] = [
     {
         id: 1,
         title: "Раунд 1 — Разминка",
-        videoSrc: "/videos/dance/round1.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/dance/round1.mp4`,
         description:
             "Повторяем простой и понятный танцевальный тренд. Главное — не стесняться и войти в настроение вечеринки.",
         pointsHint: "Победившей команде дается 1 балл за самый дружный и уверенный танец.",
@@ -22,7 +22,7 @@ const DANCE_ROUNDS: DanceRound[] = [
     {
         id: 2,
         title: "Раунд 2 — Ускоряемся",
-        videoSrc: "/videos/dance/round2.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/dance/round2.mp4`,
         description:
             "Танец уже быстрее и с более сложными движениями. Смотрите видео, тренируйтесь пару раз, а потом показывайте перед всеми.",
         pointsHint: "Победившей команде дается 1 балл за синхронность и энергию.",
@@ -30,7 +30,7 @@ const DANCE_ROUNDS: DanceRound[] = [
     {
         id: 3,
         title: "Раунд 3 — Супер-челлендж",
-        videoSrc: "/videos/dance/round3.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/dance/round3.mp4`,
         description:
             "Самый дружный танец вечера)",
         pointsHint:
@@ -39,7 +39,7 @@ const DANCE_ROUNDS: DanceRound[] = [
     {
         id: 4,
         title: "Раунд 4 — Импровизация",
-        videoSrc: "/videos/dance/round4.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/dance/round4.mp4`,
         description:
             "Никаких правил! Вся команда выходит в центр и показывает свои лучшие движения. В данном тренде можно добавить креативности и импровизации)",
         pointsHint: "За креативность и смелость — 2 балла.",
@@ -47,7 +47,7 @@ const DANCE_ROUNDS: DanceRound[] = [
     {
         id: 5,
         title: "Раунд 5 — Финальный отрыв",
-        videoSrc: "/videos/dance/round5.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/dance/round5.mp4`,
         description:
             "Включаем самый зажигательный трек. Все выходят на танцпол и танцуют вместе. Побеждает дружба (но баллы всё равно можно дать!).",
         pointsHint: "3 балла самой активной команде.",

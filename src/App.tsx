@@ -103,7 +103,7 @@ const App: React.FC = () => {
     return (
         <div className="party-background">
             {/* музыка */}
-            <audio ref={audioRef} src="/audio/intro.mp3" className="hidden" loop />
+            <audio ref={audioRef} src={`${import.meta.env.BASE_URL}audio/intro.mp3`} className="hidden" loop />
 
             {/* декорации */}
             <div className="party-decorations" aria-hidden={true}>

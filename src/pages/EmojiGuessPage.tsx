@@ -17,70 +17,70 @@ export const emojiCartoons: EmojiCartoonItem[] = [
         type: "cartoon",
         emojis: ["👸", "🥶", "❤️"],
         answer: "Холодное сердце",
-        image: "/images/cartoons/frozen.jpg",
+        image: `${import.meta.env.BASE_URL}images/cartoons/frozen.jpg`,
     },
     {
         id: "sing",
         type: "cartoon",
         emojis: ["🐨", "🐭", "🐘", "🦔", "🦍", "🐷"],
         answer: "Зверопой",
-        image: "/images/cartoons/sing.jpg",
+        image: `${import.meta.env.BASE_URL}images/cartoons/sing.jpg`,
     },
     {
         id: "ratatouille",
         type: "cartoon",
         emojis: ["🐭", "👨‍🍳", "🍲"],
         answer: "Рататуй",
-        image: "/images/cartoons/ratatouille.jpg",
+        image: `${import.meta.env.BASE_URL}images/cartoons/ratatouille.jpg`,
     },
     {
         id: "rapunzel",
         type: "cartoon",
         emojis: ["🏰", "👱‍♀️✂️", "🦎"],
         answer: "Рапунцель",
-        image: "/images/cartoons/rapunzel.jpg",
+        image: `${import.meta.env.BASE_URL}images/cartoons/rapunzel.jpg`,
     },
     {
         id: "turning-red",
         type: "cartoon",
         emojis: ["👧", "🔴", "🐼"],
         answer: "Я краснею",
-        image: "/images/cartoons/turning-red.jpg",
+        image: `${import.meta.env.BASE_URL}images/cartoons/turning-red.jpg`,
     },
     {
         id: "madagascar",
         type: "cartoon",
         emojis: ["🦁", "🦓", "🦒", "🦛", "🏝️"],
         answer: "Мадагаскар",
-        image: "/images/cartoons/madagascar.jpg",
+        image: `${import.meta.env.BASE_URL}images/cartoons/madagascar.jpg`,
     },
     {
         id: "ralph",
         type: "cartoon",
         emojis: ["🕹️", "💪", "🍭", "🏎️"],
         answer: "Ральф",
-        image: "/images/cartoons/ralph.jpg",
+        image: `${import.meta.env.BASE_URL}images/cartoons/ralph.jpg`,
     },
     {
         id: "coco",
         type: "cartoon",
         emojis: ["👦", "🎸", "💀"],
         answer: "Тайна Коко",
-        image: "/images/cartoons/coco.jpg",
+        image: `${import.meta.env.BASE_URL}images/cartoons/coco.jpg`,
     },
     {
         id: "despicable-me",
         type: "cartoon",
         emojis: ["🍌", "👀", "🟡", "🦹‍♂️"],
         answer: "Гадкий я",
-        image: "/images/cartoons/despicable-me.jpg",
+        image: `${import.meta.env.BASE_URL}images/cartoons/despicable-me.jpg`,
     },
     {
         id: "inside-out",
         type: "cartoon",
         emojis: ["😄", "😔", "🤢", "😡", "😱"],
         answer: "Головоломка",
-        image: "/images/cartoons/inside-out.jpg",
+        image: `${import.meta.env.BASE_URL}images/cartoons/inside-out.jpg`,
     },
 ];
 
@@ -95,52 +95,52 @@ export const musicEmojiData: MusicEmojiItem[] = [
     {
         emojis: ["❓", "🤤", "💃", "👉", "💃", "💃"],
         answer: "Само собой — Артур Пирожков",
-        audio: "/audio/songs/samo-soboi.mp3"
+        audio: `${import.meta.env.BASE_URL}audio/songs/samo-soboi.mp3`
     },
     {
         emojis: ["🪑", "🦫", "👦", "🪵"],
         answer: "Бобр — Слава Скрипка",
-        audio: "/audio/songs/bobr.mp3"
+        audio: `${import.meta.env.BASE_URL}audio/songs/bobr.mp3`
     },
     {
         emojis: ["👧", "👉", "🖼️"],
         answer: "Девочка с картинки — Егор Крид",
-        audio: "/audio/songs/devocka-s-kartinki.mp3"
+        audio: `${import.meta.env.BASE_URL}audio/songs/devocka-s-kartinki.mp3`
     },
     {
         emojis: ["1️⃣", "🌾", "🌾", "🗡️"],
         answer: "Один в поле воин — Bearwolf",
-        audio: "/audio/songs/odin-v-pole-voin.mp3"
+        audio: `${import.meta.env.BASE_URL}audio/songs/odin-v-pole-voin.mp3`
     },
     {
         emojis: ["🙋‍♀️", "👑"],
         answer: "Царица — Anna Asti",
-        audio: "/audio/songs/carica.mp3"
+        audio: `${import.meta.env.BASE_URL}audio/songs/carica.mp3`
     },
     {
         emojis: ["🤫", "🤫", "👦"],
         answer: "Сигма бой — BETSY & Мария Янковская",
-        audio: "/audio/songs/sigma-boi.mp3"
+        audio: `${import.meta.env.BASE_URL}audio/songs/sigma-boi.mp3`
     },
     {
         emojis: ["🐰", "🐰", "🙅‍♀️", "🐰"],
         answer: "Марьяна Локель — LABUBU",
-        audio: "/audio/songs/labubu.mp3"
+        audio: `${import.meta.env.BASE_URL}audio/songs/labubu.mp3`
     },
     {
         emojis: ["🍍", "👟"],
         answer: "Ананас Адидaс — Mia Boyka",
-        audio: "/audio/songs/ananas-adidas.mp3"
+        audio: `${import.meta.env.BASE_URL}audio/songs/ananas-adidas.mp3`
     },
     {
         emojis: ["👩‍👧", "💰", "🐶", "👨‍👧", "💰", "🐶"],
         answer: "Купи пёсика — Милана Хаметова",
-        audio: "/audio/songs/kupi-pesika.mp3"
+        audio: `${import.meta.env.BASE_URL}audio/songs/kupi-pesika.mp3`
     },
     {
         emojis: ["👉", "➡️", "🕷️"],
         answer: "Человек-паук — POLI",
-        audio: "/audio/songs/poli-spider-man.mp3"
+        audio: `${import.meta.env.BASE_URL}audio/songs/poli-spider-man.mp3`
     }
 ];
 

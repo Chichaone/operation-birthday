@@ -14,7 +14,7 @@ const CUP_ROUNDS: CupRound[] = [
     {
         id: 1,
         title: "Раунд 1 — Собери все стаканчики шариком",
-        videoSrc: "/videos/cups/round1.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/cups/round1.mp4`,
         description: (
             <>
                 Игроки с помощью воздушного шарика должны собрать стаканчики друг в друга.
@@ -27,7 +27,7 @@ const CUP_ROUNDS: CupRound[] = [
     {
         id: 2,
         title: "Раунд 2 — Башенный Ниндзя",
-        videoSrc: "/videos/cups/round2.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/cups/round2.mp4`,
         description: (
             <>
                 У каждой команды есть башня из пластиковых стаканчиков, сверху — лёгкий шарик.
@@ -47,7 +47,7 @@ const CUP_ROUNDS: CupRound[] = [
     {
         id: 3,
         title: "Раунд 3 — КРЕСТОФЛИП",
-        videoSrc: "/videos/cups/round3.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/cups/round3.mp4`,
         description: (
             <>
                 ⚡ <strong>Цель</strong> — выиграть в крестики нолики.
@@ -72,7 +72,7 @@ const CUP_ROUNDS: CupRound[] = [
     {
         id: 4,
         title: "Раунд 4 — Охота за стаканами",
-        videoSrc: "/videos/cups/round4.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/cups/round4.mp4`,
         description: (
             <>
                 ⚡ <strong>Цель</strong> — собрать все стаканчики быстрее соперника.
@@ -105,7 +105,7 @@ const CUP_ROUNDS: CupRound[] = [
     {
         id: 5,
         title: "Раунд 5 — Четыре шага до победы",
-        videoSrc: "/videos/cups/round5.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/cups/round5.mp4`,
         description: (
             <>
                 Перед игроками поле из линий, похожее на квадратную сетку. На пересечениях стоят стаканчики разных цветов.
@@ -125,7 +125,7 @@ const CUP_ROUNDS: CupRound[] = [
     {
         id: 6,
         title: "Раунд 6 — СТАКАНОХВАТ",
-        videoSrc: "/videos/cups/round6.mp4",
+        videoSrc: `${import.meta.env.BASE_URL}videos/cups/round6.mp4`,
         description: (
             <>
                 Финальная битва на реакцию!

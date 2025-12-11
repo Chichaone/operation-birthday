@@ -14,18 +14,21 @@ const Header = () => (
     </header>
 );
 
-const Mascot = () => (
-    <div className="party-mascot">
-        <div className="party-mascot-wrapper">
-            {/* маскот: файл лежит в public/images/mascot.png */}
-            <img
-                src="/images/mascot.png"
-                alt="Маскот вечеринки"
-                className="party-mascot-image"
-            />
+const Mascot = () => {
+    const base = import.meta.env.BASE_URL;
+    return (
+        <div className="party-mascot">
+            <div className="party-mascot-wrapper">
+                {/* маскот: файл лежит в public/images/mascot.png */}
+                <img
+                    src={`${base}images/mascot.png`}
+                    alt="Маскот вечеринки"
+                    className="party-mascot-image"
+                />
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 const WelcomeCard = () => (
     <div className="party-welcome-card">
@@ -69,9 +72,8 @@ const WelcomePage: React.FC = () => {
 
     return (
         <div
-            className={`party-welcome-page party-fade-in ${
-                isVisible ? "party-fade-in-visible" : ""
-            } ${isExiting ? "party-fade-out" : ""}`}
+            className={`party-welcome-page party-fade-in ${isVisible ? "party-fade-in-visible" : ""
+                } ${isExiting ? "party-fade-out" : ""}`}
         >
             <Header />
 

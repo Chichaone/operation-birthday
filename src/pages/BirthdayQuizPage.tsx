@@ -153,7 +153,7 @@ const BirthdayQuizPage: React.FC<BirthdayQuizPageProps> = ({
         let audio: HTMLAudioElement | null = null;
 
         if (isFinished) {
-            audio = new Audio("/audio/reveal.mp3");
+            audio = new Audio(`${import.meta.env.BASE_URL}audio/reveal.mp3`);
             audio.volume = 0.5;
             audio.play().catch(() => { });
         }
