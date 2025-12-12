@@ -17,7 +17,7 @@ type FloatingShape = {
     duration: number;
     delay: number;
     opacity?: number;
-};
+}
 
 const MusicToggle = ({
     isPlaying,
@@ -26,24 +26,61 @@ const MusicToggle = ({
     isPlaying: boolean;
     onToggle: () => void;
 }) => (
-    <div className="party-music-wrapper">
-        <button onClick={onToggle} className="party-music-toggle">
-            Музыка: {isPlaying ? "вкл" : "выкл"}
-        </button>
-    </div>
-);
+    <button
+        onClick={onToggle}
+        className="party-music-toggle-fixed"
+        title={isPlaying ? "Выключить музыку" : "Включить музыку"}
+        aria-label={isPlaying ? "Выключить музыку" : "Включить музыку"}
+    >
+        {isPlaying ? (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M15.54 8.46C16.4774 9.39764 17.0039 10.6692 17.0039 11.995C17.0039 13.3208 16.4774 14.5924 15.54 15.53M19.07 4.93C20.9447 6.80528 21.9979 9.34836 21.9979 12C21.9979 14.6516 20.9447 17.1947 19.07 19.07" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+        ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 5L6 9H2V15H6L11 19V5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <line x1="23" y1="9" x2="17" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <line x1="17" y1="9" x2="23" y2="15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+        )}
+    </button>
+)
 
 const App: React.FC = () => {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [isMusicOn, setIsMusicOn] = useState(false);
 
     // 🔹 глобальное состояние игроков, команд и счёта
-    const [players, setPlayers] = useState<string[]>([""]);
-    const [teamStitch, setTeamStitch] = useState<string[]>([]);
-    const [teamHawaii, setTeamHawaii] = useState<string[]>([]);
-    // 🔹 Названия команд
-    const [team1Name, setTeam1Name] = useState("Команда Стича");
-    const [team2Name, setTeam2Name] = useState("Команда Гавайев");
+    const [players, setPlayers] = useState<string[]>(() => {
+        const saved = localStorage.getItem("players");
+        return saved ? JSON.parse(saved) : [""];
+    });
+    const [teamStitch, setTeamStitch] = useState<string[]>(() => {
+        const saved = localStorage.getItem("teamStitch");
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [teamHawaii, setTeamHawaii] = useState<string[]>(() => {
+        const saved = localStorage.getItem("teamHawaii");
+        return saved ? JSON.parse(saved) : [];
+    });
+    // 🔹 Названия команд и эмодзи
+    const [team1Name, setTeam1Name] = useState(() => {
+        const saved = localStorage.getItem("team1Name");
+        return saved || "Команда Стича";
+    });
+    const [team1Emoji, setTeam1Emoji] = useState(() => {
+        const saved = localStorage.getItem("team1Emoji");
+        return saved || "💙";
+    });
+    const [team2Name, setTeam2Name] = useState(() => {
+        const saved = localStorage.getItem("team2Name");
+        return saved || "Команда Гавайев";
+    });
+    const [team2Emoji, setTeam2Emoji] = useState(() => {
+        const saved = localStorage.getItem("team2Emoji");
+        return saved || "🌴";
+    });
 
     const [stitchScore, setStitchScore] = useState(() => {
         const saved = localStorage.getItem("stitchScore");
@@ -84,6 +121,35 @@ const App: React.FC = () => {
         localStorage.setItem("stitchScore", stitchScore.toString());
         localStorage.setItem("hawaiiScore", hawaiiScore.toString());
     }, [stitchScore, hawaiiScore]);
+
+    // Сохранение настроек команд
+    useEffect(() => {
+        localStorage.setItem("players", JSON.stringify(players));
+    }, [players]);
+
+    useEffect(() => {
+        localStorage.setItem("teamStitch", JSON.stringify(teamStitch));
+    }, [teamStitch]);
+
+    useEffect(() => {
+        localStorage.setItem("teamHawaii", JSON.stringify(teamHawaii));
+    }, [teamHawaii]);
+
+    useEffect(() => {
+        localStorage.setItem("team1Name", team1Name);
+    }, [team1Name]);
+
+    useEffect(() => {
+        localStorage.setItem("team1Emoji", team1Emoji);
+    }, [team1Emoji]);
+
+    useEffect(() => {
+        localStorage.setItem("team2Name", team2Name);
+    }, [team2Name]);
+
+    useEffect(() => {
+        localStorage.setItem("team2Emoji", team2Emoji);
+    }, [team2Emoji]);
 
     const handleToggleMusic = () => {
         const audio = audioRef.current;
@@ -141,8 +207,16 @@ const App: React.FC = () => {
                             setTeamHawaii={setTeamHawaii}
                             team1Name={team1Name}
                             setTeam1Name={setTeam1Name}
+                            team1Emoji={team1Emoji}
+                            setTeam1Emoji={setTeam1Emoji}
                             team2Name={team2Name}
                             setTeam2Name={setTeam2Name}
+                            team2Emoji={team2Emoji}
+                            setTeam2Emoji={setTeam2Emoji}
+                            stitchScore={stitchScore}
+                            setStitchScore={setStitchScore}
+                            hawaiiScore={hawaiiScore}
+                            setHawaiiScore={setHawaiiScore}
                         />
                     }
                 />
@@ -214,8 +288,8 @@ const App: React.FC = () => {
                         />
                     }
                 />
-            </Routes>
-        </div>
+            </Routes >
+        </div >
     );
 };
 

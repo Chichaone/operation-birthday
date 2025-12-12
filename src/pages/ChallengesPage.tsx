@@ -110,12 +110,21 @@ const ChallengesPage: React.FC<ChallengesPageProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
+  const mainRef = React.useRef<HTMLElement>(null);
 
   const currentChallenge = CHALLENGES[challengeIndex];
   const isDanceChallenge = currentChallenge.id === 1;
 
   useEffect(() => {
     const timeout = setTimeout(() => setIsVisible(true), 80);
+
+    // Auto-scroll to the main challenge block
+    setTimeout(() => {
+      if (mainRef.current) {
+        mainRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }, 100);
+
     return () => clearTimeout(timeout);
   }, []);
 
@@ -129,15 +138,6 @@ const ChallengesPage: React.FC<ChallengesPageProps> = ({
     );
   };
 
-
-
-  const handleResetScores = () => {
-    if (window.confirm("Сбросить счёт обеих команд?")) {
-      setStitchScore(0);
-      setHawaiiScore(0);
-    }
-  };
-
   const handleBackToTeams = () => {
     navigate("/teams");
   };
@@ -147,36 +147,40 @@ const ChallengesPage: React.FC<ChallengesPageProps> = ({
       className={`party-challenges-page party-fade-in ${isVisible ? "party-fade-in-visible" : ""
         }`}
     >
+      {/* Фиксированная кнопка "Назад к командам" */}
+      <button
+        className="party-back-to-teams-button"
+        onClick={handleBackToTeams}
+        title="Назад к командам"
+        aria-label="Назад к командам"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
       <div className="party-challenges-inner">
-        {/* Заголовок */}
-        <header className="party-challenges-header">
-          <h2 className="party-title">КОНКУРСЫ И ОЧКИ 🔥</h2>
-          <p className="party-subtitle">
-            Выбирайте конкурс, играйте раунды и начисляйте очки командам.
-            <br />
-            Главное правило — всем должно быть весело!
-          </p>
-        </header>
-
-        <main className="party-challenges-main">
-          {/* Счёт команд */}
-          {/* Счёт команд (вынесен в отдельный компонент) */}
-          <ScoreBoard
-            stitchScore={stitchScore}
-            hawaiiScore={hawaiiScore}
-            setStitchScore={setStitchScore}
-            setHawaiiScore={setHawaiiScore}
-            team1Name={team1Name}
-            team2Name={team2Name}
-          />
-
+        <main className="party-challenges-main" ref={mainRef}>
+          {/* Счёт команд (теперь под карточкой) */}
+          <section style={{ width: "100%", maxWidth: "800px", margin: "0 auto" }}>
+            <div className="party-scoreboard-horizontal">
+              <ScoreBoard
+                stitchScore={stitchScore}
+                hawaiiScore={hawaiiScore}
+                setStitchScore={setStitchScore}
+                setHawaiiScore={setHawaiiScore}
+                team1Name={team1Name}
+                team2Name={team2Name}
+              />
+            </div>
+          </section>
           {/* Текущий конкурс */}
           <section className="party-challenge-card">
             <div className="party-challenge-indicator">
               Конкурс {challengeIndex + 1} из {CHALLENGES.length}
             </div>
 
-            <h3 className="party-challenge-title">{currentChallenge.title}</h3>
+            <h1 className="party-challenge-title">{currentChallenge.title}</h1>
 
             <div className="party-challenge-description party-text">
               {currentChallenge.description}
@@ -186,94 +190,82 @@ const ChallengesPage: React.FC<ChallengesPageProps> = ({
               {currentChallenge.pointsHint}
             </p>
 
-            {/* 🔥 ВОТ ЗДЕСЬ — КНОПКА ДЛЯ ТАНЦЕВАЛЬНОГО БАТТЛА 🔥 */}
-            {isDanceChallenge && (
-              <div className="party-challenge-extra">
-                <button
-                  className="party-button party-btn-pink"
-                  style={{ fontSize: "0.9rem", padding: "0.8rem 1.6rem" }}
-                  onClick={() => navigate("/dance-battle")}
-                >
-                  ПРИСТУПИТЬ К ТАНЦЕВАЛЬНОМУ БАТТЛУ 💃🔥
-                </button>
-              </div>
-            )}
+            <div className="party-challenge-actions-row" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginTop: "1rem" }}>
 
-            {/* Кнопка для стаканчиков (ID 2) */}
-            {currentChallenge.id === 2 && (
-              <div className="party-challenge-extra">
-                <button
-                  className="party-button party-btn-pink"
-                  style={{ fontSize: "0.9rem", padding: "0.8rem 1.6rem" }}
-                  onClick={() => navigate("/cups-challenge")}
-                >
-                  ПЕРЕЙТИ К СТАКАНЧИКАМ 🥤
-                </button>
-              </div>
-            )}
-
-            {/* Кнопка для Эмодзи (ID 3) */}
-            {currentChallenge.id === 3 && (
-              <div className="party-challenge-extra">
-                <button
-                  className="party-button party-btn-pink"
-                  style={{ fontSize: "0.9rem", padding: "0.8rem 1.6rem" }}
-                  onClick={() => navigate("/emoji")}
-                >
-                  НАЧАТЬ ЭМОДЗИ-БАТТЛ 🕵️‍♀️
-                </button>
-              </div>
-            )}
-
-            {/* Кнопка для Викторины (ID 4) */}
-            {currentChallenge.id === 4 && (
-              <div className="party-challenge-extra">
-                <button
-                  className="party-button party-btn-blue"
-                  style={{ fontSize: "1rem", padding: "1rem 2rem" }}
-                  onClick={() => navigate("/birthday-quiz")}
-                >
-                  НАЧАТЬ ВИКТОРИНУ 🎤
-                </button>
-              </div>
-            )}
-
-            {/* Навигация по конкурсам */}
-            <div className="party-challenge-nav">
+              {/* Стрелка назад */}
               <button
-                className="party-button party-btn-gray"
-                style={{ color: "black" }}
+                className="party-button party-icon-button party-btn-gray"
+                style={{ color: "black", width: "3.5rem", height: "3.5rem", padding: "0", flexShrink: 0 }}
                 onClick={handlePrev}
+                title="Предыдущий конкурс"
+                aria-label="Предыдущий конкурс"
               >
-                ← Предыдущий
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </button>
+
+              {/* Центральная кнопка (действие) */}
+              <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+                {isDanceChallenge && (
+                  <button
+                    className="party-button party-btn-pink"
+                    style={{ fontSize: "0.9rem", padding: "0.8rem 1.6rem", width: "100%" }}
+                    onClick={() => navigate("/dance-battle")}
+                  >
+                    ТАНЦЕВАЛЬНЫЙ БАТТЛ 💃
+                  </button>
+                )}
+                {currentChallenge.id === 2 && (
+                  <button
+                    className="party-button party-btn-pink"
+                    style={{ fontSize: "0.9rem", padding: "0.8rem 1.6rem", width: "100%" }}
+                    onClick={() => navigate("/cups-challenge")}
+                  >
+                    СТАКАНЧИКИ 🥤
+                  </button>
+                )}
+                {currentChallenge.id === 3 && (
+                  <button
+                    className="party-button party-btn-pink"
+                    style={{ fontSize: "0.9rem", padding: "0.8rem 1.6rem", width: "100%" }}
+                    onClick={() => navigate("/emoji")}
+                  >
+                    ЭМОДЗИ-БАТТЛ 🕵️‍♀️
+                  </button>
+                )}
+                {currentChallenge.id === 4 && (
+                  <button
+                    className="party-button party-btn-blue"
+                    style={{ fontSize: "1rem", padding: "1rem 2rem", width: "100%" }}
+                    onClick={() => navigate("/birthday-quiz")}
+                  >
+                    ВИКТОРИНА 🎤
+                  </button>
+                )}
+              </div>
+
+              {/* Стрелка вперед */}
               <button
-                className="party-button party-btn-pink"
+                className="party-button party-icon-button party-btn-pink"
+                style={{ width: "3.5rem", height: "3.5rem", padding: "0", flexShrink: 0 }}
                 onClick={handleNext}
+                title="Следующий конкурс"
+                aria-label="Следующий конкурс"
               >
-                Следующий →
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
               </button>
             </div>
           </section>
         </main>
 
-        {/* Кнопки внизу */}
-        <div className="party-challenges-footer">
-          <button
-            className="party-button party-btn-gray"
-            onClick={handleResetScores}
-          >
-            Сбросить счёт
-          </button>
-          <button
-            className="party-button party-btn-blue"
-            onClick={handleBackToTeams}
-          >
-            Назад к командам
-          </button>
-        </div>
+
+
+
       </div>
-    </div>
+    </div >
   );
 };
 

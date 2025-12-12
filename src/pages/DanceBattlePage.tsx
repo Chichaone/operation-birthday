@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import ScoreBoard from "../components/ScoreBoard";
+import ChallengeHeader from "../components/ChallengeHeader";
 
 type DanceRound = {
     id: number;
@@ -73,7 +73,6 @@ const DanceBattlePage: React.FC<DanceBattlePageProps> = ({
 }) => {
     const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
     const [isVisible, setIsVisible] = useState(false);
-    const navigate = useNavigate();
 
     const currentRound = DANCE_ROUNDS[currentRoundIndex];
 
@@ -98,70 +97,10 @@ const DanceBattlePage: React.FC<DanceBattlePageProps> = ({
         <div className={`party-challenges-page party-fade-in ${isVisible ? "party-fade-in-visible" : ""}`}>
             <div className="party-challenges-inner" style={{ flexDirection: "column", alignItems: "center" }}>
 
-                {/* Хедер с навигацией и заголовком */}
-                <header className="party-header" style={{ width: "100%", display: "grid", gridTemplateColumns: "auto 1fr auto", alignItems: "center", gap: "1rem" }}>
-                    <button
-                        className="party-button party-btn-gray"
-                        style={{ fontSize: "1rem", padding: "0.8rem 1.4rem", color: "black" }}
-                        onClick={() => navigate("/challenges")}
-                    >
-                        ← Назад
-                    </button>
-                    <h2 className="party-title" style={{ margin: 0, fontSize: "clamp(2rem, 4vw, 3.5rem)" }}>Танцевальный Батл</h2>
-                    {/* Пустой блок для баланса сетки хедере если нужно, или просто оставляем */}
-                    <div style={{ width: "100px" }}></div>
-                </header>
+                <ChallengeHeader title="Танцевальный Баттл" />
 
-                <main className="party-main" style={{ flexDirection: "column", gap: "2rem", width: "100%" }}>
-
-                    {/* Карточка текущего раунда */}
-                    <section className="party-challenge-card" style={{ width: "100%", maxWidth: "800px", margin: "0 auto" }}>
-                        <div className="party-dance-round-header">
-                            <div className="party-challenge-indicator">
-                                Раунд {currentRoundIndex + 1} из {DANCE_ROUNDS.length}
-                            </div>
-                            <h3 className="party-challenge-title">{currentRound.title}</h3>
-                        </div>
-
-                        <div className="party-dance-video-wrapper" style={{ marginTop: "1rem", borderRadius: "1rem", overflow: "hidden", background: "#000" }}>
-                            <video
-                                key={currentRound.videoSrc}
-                                className="party-dance-video"
-                                style={{ width: "100%", maxHeight: "50vh", display: "block" }}
-                                controls
-                                src={currentRound.videoSrc}
-                            >
-                                Ваш браузер не поддерживает видео.
-                            </video>
-                        </div>
-
-                        <p className="party-challenge-description party-text" style={{ marginTop: "1.5rem" }}>
-                            {currentRound.description}
-                        </p>
-                        <p className="party-challenge-points-hint">
-                            {currentRound.pointsHint}
-                        </p>
-
-                        <div className="party-challenge-nav">
-                            <button
-                                className="party-button party-btn-gray"
-                                style={{ color: "black" }}
-                                onClick={handlePrevRound}
-                                disabled={currentRoundIndex === 0}
-                            >
-                                ← Предыдущий раунд
-                            </button>
-                            <button
-                                className="party-button party-btn-pink"
-                                onClick={handleNextRound}
-                                disabled={currentRoundIndex === DANCE_ROUNDS.length - 1}
-                            >
-                                Следующий раунд →
-                            </button>
-                        </div>
-                    </section>
-
-                    {/* Счёт */}
+                {/* Фиксированный счёт слева */}
+                <div className="party-scoreboard-fixed">
                     <ScoreBoard
                         stitchScore={stitchScore}
                         hawaiiScore={hawaiiScore}
@@ -169,8 +108,69 @@ const DanceBattlePage: React.FC<DanceBattlePageProps> = ({
                         setHawaiiScore={setHawaiiScore}
                         team1Name={team1Name}
                         team2Name={team2Name}
-                        style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: "2rem" }}
                     />
+                </div>
+
+                <main className="party-main" style={{ flexDirection: "column", gap: "2rem", width: "100%" }}>
+
+
+                    {/* Контейнер с карточкой и кнопками навигации */}
+                    <div style={{ position: "relative", width: "100%", maxWidth: "800px", margin: "0 auto" }}>
+                        {/* Кнопка предыдущего раунда */}
+                        <button
+                            className="party-card-nav-button party-card-nav-prev"
+                            onClick={handlePrevRound}
+                            disabled={currentRoundIndex === 0}
+                            title="Предыдущий раунд"
+                            aria-label="Предыдущий раунд"
+                        >
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
+
+                        {/* Карточка текущего раунда */}
+                        <section className="party-challenge-card">
+                            <div className="party-dance-round-header">
+                                <div className="party-challenge-indicator">
+                                    Раунд {currentRoundIndex + 1} из {DANCE_ROUNDS.length}
+                                </div>
+                                <h3 className="party-challenge-title">{currentRound.title}</h3>
+                            </div>
+
+                            <div className="party-dance-video-wrapper" style={{ marginTop: "1rem", borderRadius: "1rem", overflow: "hidden", background: "#000" }}>
+                                <video
+                                    key={currentRound.videoSrc}
+                                    className="party-dance-video"
+                                    style={{ width: "100%", maxHeight: "50vh", display: "block" }}
+                                    controls
+                                    src={currentRound.videoSrc}
+                                >
+                                    Ваш браузер не поддерживает видео.
+                                </video>
+                            </div>
+
+                            <p className="party-challenge-description party-text" style={{ marginTop: "1.5rem" }}>
+                                {currentRound.description}
+                            </p>
+                            <p className="party-challenge-points-hint">
+                                {currentRound.pointsHint}
+                            </p>
+                        </section>
+
+                        {/* Кнопка следующего раунда */}
+                        <button
+                            className="party-card-nav-button party-card-nav-next"
+                            onClick={handleNextRound}
+                            disabled={currentRoundIndex === DANCE_ROUNDS.length - 1}
+                            title="Следующий раунд"
+                            aria-label="Следующий раунд"
+                        >
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
+                    </div>
 
                 </main>
             </div>

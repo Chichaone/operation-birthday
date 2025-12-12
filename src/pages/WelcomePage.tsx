@@ -32,14 +32,42 @@ const Mascot = () => {
 
 const WelcomeCard = () => (
     <div className="party-welcome-card">
-        <p className="party-text">
-            Привет! Если вы здесь, значит вы готовы:
-            <br />🔥 танцевать
-            <br />🎯 соревноваться
-            <br />😂 смеяться
-            <br />
-            и получать сюрпризы!
-        </p>
+        <h3 style={{
+            fontSize: "1.2rem",
+            fontWeight: "800",
+            margin: "0 0 0.8rem",
+            textTransform: "uppercase",
+            letterSpacing: "0.05em",
+            color: "#ff3e81",
+            textAlign: "center"
+        }}>
+            План на сегодня:
+        </h3>
+        <ul style={{
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.6rem"
+        }}>
+            <li className="party-text" style={{ display: "flex", alignItems: "center", gap: "0.6rem", textAlign: "left" }}>
+                <span style={{ fontSize: "1.5rem", lineHeight: 1 }}>🔥</span>
+                <span><strong>Танцевать</strong> как звезды</span>
+            </li>
+            <li className="party-text" style={{ display: "flex", alignItems: "center", gap: "0.6rem", textAlign: "left" }}>
+                <span style={{ fontSize: "1.5rem", lineHeight: 1 }}>🎯</span>
+                <span><strong>Побеждать</strong> в конкурсах</span>
+            </li>
+            <li className="party-text" style={{ display: "flex", alignItems: "center", gap: "0.6rem", textAlign: "left" }}>
+                <span style={{ fontSize: "1.5rem", lineHeight: 1 }}>😂</span>
+                <span><strong>Смеяться</strong> до слёз</span>
+            </li>
+            <li className="party-text" style={{ display: "flex", alignItems: "center", gap: "0.6rem", textAlign: "left" }}>
+                <span style={{ fontSize: "1.5rem", lineHeight: 1 }}>🎁</span>
+                <span>Получать <strong>сюрпризы</strong></span>
+            </li>
+        </ul>
     </div>
 );
 

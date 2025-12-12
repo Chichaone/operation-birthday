@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ScoreBoard from "../components/ScoreBoard";
+import ChallengeHeader from "../components/ChallengeHeader";
 
 // --- ДАННЫЕ МУЛЬТФИЛЬМОВ ---
 export type EmojiCartoonItem = {
@@ -95,53 +96,53 @@ export const musicEmojiData: MusicEmojiItem[] = [
     {
         emojis: ["❓", "🤤", "💃", "👉", "💃", "💃"],
         answer: "Само собой — Артур Пирожков",
-        audio: `${import.meta.env.BASE_URL}audio/songs/samo-soboi.mp3`
+        audio: `${import.meta.env.BASE_URL}audio/songs/samo-soboi.mp3`,
     },
     {
         emojis: ["🪑", "🦫", "👦", "🪵"],
         answer: "Бобр — Слава Скрипка",
-        audio: `${import.meta.env.BASE_URL}audio/songs/bobr.mp3`
+        audio: `${import.meta.env.BASE_URL}audio/songs/bobr.mp3`,
     },
     {
         emojis: ["👧", "👉", "🖼️"],
         answer: "Девочка с картинки — Егор Крид",
-        audio: `${import.meta.env.BASE_URL}audio/songs/devocka-s-kartinki.mp3`
+        audio: `${import.meta.env.BASE_URL}audio/songs/devocka-s-kartinki.mp3`,
     },
     {
         emojis: ["1️⃣", "🌾", "🌾", "🗡️"],
         answer: "Один в поле воин — Bearwolf",
-        audio: `${import.meta.env.BASE_URL}audio/songs/odin-v-pole-voin.mp3`
+        audio: `${import.meta.env.BASE_URL}audio/songs/odin-v-pole-voin.mp3`,
     },
     {
         emojis: ["🙋‍♀️", "👑"],
         answer: "Царица — Anna Asti",
-        audio: `${import.meta.env.BASE_URL}audio/songs/carica.mp3`
+        audio: `${import.meta.env.BASE_URL}audio/songs/carica.mp3`,
     },
     {
         emojis: ["🤫", "🤫", "👦"],
         answer: "Сигма бой — BETSY & Мария Янковская",
-        audio: `${import.meta.env.BASE_URL}audio/songs/sigma-boi.mp3`
+        audio: `${import.meta.env.BASE_URL}audio/songs/sigma-boi.mp3`,
     },
     {
         emojis: ["🐰", "🐰", "🙅‍♀️", "🐰"],
         answer: "Марьяна Локель — LABUBU",
-        audio: `${import.meta.env.BASE_URL}audio/songs/labubu.mp3`
+        audio: `${import.meta.env.BASE_URL}audio/songs/labubu.mp3`,
     },
     {
         emojis: ["🍍", "👟"],
         answer: "Ананас Адидaс — Mia Boyka",
-        audio: `${import.meta.env.BASE_URL}audio/songs/ananas-adidas.mp3`
+        audio: `${import.meta.env.BASE_URL}audio/songs/ananas-adidas.mp3`,
     },
     {
         emojis: ["👩‍👧", "💰", "🐶", "👨‍👧", "💰", "🐶"],
         answer: "Купи пёсика — Милана Хаметова",
-        audio: `${import.meta.env.BASE_URL}audio/songs/kupi-pesika.mp3`
+        audio: `${import.meta.env.BASE_URL}audio/songs/kupi-pesika.mp3`,
     },
     {
         emojis: ["👉", "➡️", "🕷️"],
         answer: "Человек-паук — POLI",
-        audio: `${import.meta.env.BASE_URL}audio/songs/poli-spider-man.mp3`
-    }
+        audio: `${import.meta.env.BASE_URL}audio/songs/poli-spider-man.mp3`,
+    },
 ];
 
 type EmojiGuessPageProps = {
@@ -173,7 +174,7 @@ const EmojiGuessPage: React.FC<EmojiGuessPageProps> = ({
     const [isAnswerVisible, setIsAnswerVisible] = useState(false);
 
     // Media Ref
-    const mediaRef = useRef<HTMLVideoElement | HTMLAudioElement | null>(null);
+    const mediaRef = useRef<HTMLAudioElement | null>(null);
 
     // Fade-in animation
     useEffect(() => {
@@ -181,7 +182,7 @@ const EmojiGuessPage: React.FC<EmojiGuessPageProps> = ({
         return () => clearTimeout(timer);
     }, []);
 
-    // Останавливает медиа при смене раунда/таба
+    // Останавливает медиа
     const stopMedia = () => {
         if (mediaRef.current) {
             mediaRef.current.pause();
@@ -200,20 +201,18 @@ const EmojiGuessPage: React.FC<EmojiGuessPageProps> = ({
     const handleNextRound = () => {
         stopMedia();
         setIsAnswerVisible(false);
+
         if (activeTab === "cartoons") {
-            if (currentCartoonIndex < emojiCartoons.length) {
-                setCurrentCartoonIndex(prev => prev + 1);
-            }
+            setCurrentCartoonIndex((prev) => (prev < emojiCartoons.length ? prev + 1 : prev));
         } else {
-            if (currentMusicIndex < musicEmojiData.length) {
-                setCurrentMusicIndex(prev => prev + 1);
-            }
+            setCurrentMusicIndex((prev) => (prev < musicEmojiData.length ? prev + 1 : prev));
         }
     };
 
     const handlePrevRound = () => {
         stopMedia();
         setIsAnswerVisible(false);
+
         if (activeTab === "cartoons") {
             setCurrentCartoonIndex((prev) => (prev > 0 ? prev - 1 : 0));
         } else {
@@ -225,6 +224,7 @@ const EmojiGuessPage: React.FC<EmojiGuessPageProps> = ({
     const isCartoons = activeTab === "cartoons";
     const currentListLength = isCartoons ? emojiCartoons.length : musicEmojiData.length;
     const currentIndex = isCartoons ? currentCartoonIndex : currentMusicIndex;
+
     const isGameOver = currentIndex >= currentListLength;
 
     const currentItem = isCartoons
@@ -233,178 +233,222 @@ const EmojiGuessPage: React.FC<EmojiGuessPageProps> = ({
 
     const showAnswer = () => {
         setIsAnswerVisible(true);
-        // Autoplay logic is handled by the <video autoPlay> attribute when rendered, 
-        // but we can also enforce it here if needed.
+
+        if (activeTab === "music") {
+            setTimeout(() => {
+                const el = mediaRef.current;
+                el?.play().catch(() => { });
+            }, 0);
+        }
     };
 
     return (
         <div className={`party-challenges-page party-fade-in ${isVisible ? "party-fade-in-visible" : ""}`}>
             <div className="party-challenges-inner" style={{ flexDirection: "column", alignItems: "center" }}>
-
                 {/* --- ХЕДЕР --- */}
-                <header className="party-header" style={{ width: "100%", display: "grid", gridTemplateColumns: "auto 1fr auto", alignItems: "center", gap: "1rem" }}>
-                    <button
-                        className="party-button party-btn-gray"
-                        style={{ fontSize: "1rem", padding: "0.8rem 1.4rem", color: "black" }}
-                        onClick={() => navigate("/challenges")}
-                    >
-                        ← Назад
-                    </button>
-                    <div style={{ textAlign: "center" }}>
-                        <h2 className="party-title" style={{ margin: 0, fontSize: "clamp(2rem, 4vw, 3.5rem)" }}>УГАДАЙ ПО ЭМОДЗИ</h2>
-                    </div>
-                    <div style={{ width: "100px" }}></div>
-                </header>
+                <ChallengeHeader title="УГАДАЙ ПО ЭМОДЖИ" />
+
+                {/* Фиксированный счёт слева */}
+                <div className="party-scoreboard-fixed">
+                    <ScoreBoard
+                        stitchScore={stitchScore}
+                        hawaiiScore={hawaiiScore}
+                        setStitchScore={setStitchScore}
+                        setHawaiiScore={setHawaiiScore}
+                        team1Name={team1Name}
+                        team2Name={team2Name}
+                    />
+                </div>
 
                 {/* --- ТАБЫ --- */}
-                <div style={{ display: "flex", gap: "1rem", marginTop: "1rem", marginBottom: "2rem" }}>
+                <div
+                    className="party-tabs"
+                    style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        justifyContent: "center",
+                        gap: "1rem",
+                        marginTop: "1rem",
+                        marginBottom: "2rem",
+                        width: "100%",
+                    }}
+                >
                     <button
                         className={`party-button ${activeTab === "cartoons" ? "party-btn-blue" : "party-btn-gray"}`}
                         onClick={() => handleTabChange("cartoons")}
-                        style={{ fontSize: "1.2rem", padding: "1rem 2rem", color: activeTab === "cartoons" ? "white" : "black" }}
+                        style={{
+                            flex: "1 1 auto",
+                            fontSize: "1.1rem",
+                            padding: "0.8rem 1.5rem",
+                            color: activeTab === "cartoons" ? "white" : "black",
+                        }}
                     >
                         🎬 МУЛЬТФИЛЬМЫ
                     </button>
                     <button
                         className={`party-button ${activeTab === "music" ? "party-btn-pink" : "party-btn-gray"}`}
                         onClick={() => handleTabChange("music")}
-                        style={{ fontSize: "1.2rem", padding: "1rem 2rem", color: activeTab === "music" ? "white" : "black" }}
+                        style={{
+                            flex: "1 1 auto",
+                            fontSize: "1.1rem",
+                            padding: "0.8rem 1.5rem",
+                            color: activeTab === "music" ? "white" : "black",
+                        }}
                     >
                         🎵 ПЕСНИ
                     </button>
                 </div>
 
                 <main className="party-main" style={{ flexDirection: "column", gap: "2rem", width: "100%", alignItems: "center" }}>
-
                     {!isGameOver && currentItem ? (
-                        <div className="party-challenge-card" style={{ width: "100%", maxWidth: "800px", textAlign: "center", padding: "3rem 2rem", borderRadius: "1.5rem" }}>
+                        <div style={{ position: "relative", width: "100%", maxWidth: "800px" }}>
+                            {/* Кнопка предыдущего */}
+                            <button
+                                className="party-card-nav-button party-card-nav-prev"
+                                onClick={handlePrevRound}
+                                disabled={currentIndex === 0}
+                                title="Назад"
+                                aria-label="Назад"
+                            >
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </button>
 
-                            <div style={{ marginBottom: "1rem", color: "#666" }}>
-                                Раунд {currentIndex + 1} из {currentListLength}
-                            </div>
+                            <div className="party-challenge-card" style={{ width: "100%", textAlign: "center", padding: "3rem 2rem", borderRadius: "1.5rem" }}>
+                                <div style={{ marginBottom: "1rem", color: "#666" }}>
+                                    Раунд {currentIndex + 1} из {currentListLength}
+                                </div>
 
-                            {/* ЭМОДЗИ */}
-                            <div className="emoji-display" style={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                justifyContent: "center",
-                                gap: "1rem",
-                                fontSize: "clamp(4rem, 8vw, 6rem)",
-                                margin: "1rem 0 3rem",
-                                animation: "floatEmoji 4s ease-in-out infinite"
-                            }}>
-                                {isCartoons
-                                    ? (currentItem as EmojiCartoonItem).emojis.map((e, i) => <span key={i}>{e}</span>)
-                                    : (currentItem as MusicEmojiItem).emojis.map((e, i) => <span key={i}>{e}</span>)
-                                }
-                            </div>
+                                {/* ЭМОДЗИ */}
+                                <div
+                                    className="emoji-display"
+                                    style={{
+                                        display: "flex",
+                                        flexWrap: "wrap",
+                                        justifyContent: "center",
+                                        gap: "0.5rem",
+                                        fontSize: "clamp(3rem, 15vw, 6rem)",
+                                        lineHeight: "1.1",
+                                        margin: "1rem 0 3rem",
+                                        animation: "floatEmoji 4s ease-in-out infinite",
+                                    }}
+                                >
+                                    {isCartoons
+                                        ? (currentItem as EmojiCartoonItem).emojis.map((e, i) => <span key={i}>{e}</span>)
+                                        : (currentItem as MusicEmojiItem).emojis.map((e, i) => <span key={i}>{e}</span>)}
+                                </div>
 
-                            {/* БЛОК ОТВЕТА */}
-                            <div style={{ minHeight: "350px", display: "flex", flexDirection: "column", justifyContent: "start", alignItems: "center" }}>
-                                {isAnswerVisible ? (
-                                    <div className="party-fade-in party-fade-in-visible" style={{ width: "100%" }}>
+                                {/* БЛОК ОТВЕТА */}
+                                <div style={{ minHeight: "350px", display: "flex", flexDirection: "column", justifyContent: "start", alignItems: "center" }}>
+                                    {isAnswerVisible ? (
+                                        <div className="party-fade-in party-fade-in-visible" style={{ width: "100%" }}>
+                                            <h3
+                                                style={{
+                                                    fontSize: "clamp(1.5rem, 5vw, 2.5rem)",
+                                                    color: "#333",
+                                                    margin: "0 0 1.5rem 0",
+                                                    fontWeight: "bold",
+                                                    wordBreak: "break-word",
+                                                }}
+                                            >
+                                                {currentItem.answer}
+                                            </h3>
 
-                                        <h3 style={{ fontSize: "2.5rem", color: "#333", margin: "0 0 1.5rem 0", fontWeight: "bold" }}>
-                                            {currentItem.answer}
-                                        </h3>
-
-                                        {isCartoons ? (
-                                            /* МЕСТО ПОД ПОСТЕР (МУЛЬТФИЛЬМЫ) */
-                                            /* МЕСТО ПОД ПОСТЕР (МУЛЬТФИЛЬМЫ) */
-                                            <div style={{
-                                                width: "100%",
-                                                maxWidth: "300px",
-                                                height: "auto",
-                                                margin: "0 auto",
-                                                borderRadius: "1rem",
-                                                overflow: "hidden",
-                                                boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
-                                                border: "4px solid white"
-                                            }}>
-                                                <img
-                                                    src={(currentItem as EmojiCartoonItem).image}
-                                                    alt={currentItem.answer}
-                                                    style={{ width: "100%", height: "auto", display: "block" }}
-                                                    onError={(e) => {
-                                                        // Fallback if image not found
-                                                        e.currentTarget.style.display = "none";
-                                                        e.currentTarget.parentElement!.innerText = "🖼️ Картинка не найдена";
-                                                        e.currentTarget.parentElement!.style.display = "flex";
-                                                        e.currentTarget.parentElement!.style.alignItems = "center";
-                                                        e.currentTarget.parentElement!.style.justifyContent = "center";
-                                                        e.currentTarget.parentElement!.style.height = "200px";
-                                                        e.currentTarget.parentElement!.style.fontSize = "1.2rem";
-                                                        e.currentTarget.parentElement!.style.color = "#666";
+                                            {isCartoons ? (
+                                                <div
+                                                    style={{
+                                                        width: "100%",
+                                                        maxWidth: "300px",
+                                                        height: "auto",
+                                                        margin: "0 auto",
+                                                        borderRadius: "1rem",
+                                                        overflow: "hidden",
+                                                        boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
+                                                        border: "4px solid white",
                                                     }}
-                                                />
-                                            </div>
-                                        ) : (
-                                            /* АУДИО ПЛЕЕР (МУЗЫКА) */
-                                            <div style={{ width: "100%", textAlign: "center" }}>
-                                                {/* Визуализация аудио (анимация) */}
-                                                <div style={{
-                                                    fontSize: "4rem",
-                                                    marginBottom: "1rem",
-                                                    animation: "pulse 1.5s infinite"
-                                                }}>
-                                                    🎶 🕺 🔊
+                                                >
+                                                    <img
+                                                        src={(currentItem as EmojiCartoonItem).image}
+                                                        alt={currentItem.answer}
+                                                        style={{ width: "100%", height: "auto", display: "block" }}
+                                                        onError={(e) => {
+                                                            e.currentTarget.style.display = "none";
+                                                            e.currentTarget.parentElement!.innerText = "🖼️ Картинка не найдена";
+                                                            e.currentTarget.parentElement!.style.display = "flex";
+                                                            e.currentTarget.parentElement!.style.alignItems = "center";
+                                                            e.currentTarget.parentElement!.style.justifyContent = "center";
+                                                            e.currentTarget.parentElement!.style.height = "200px";
+                                                            e.currentTarget.parentElement!.style.fontSize = "1.2rem";
+                                                            e.currentTarget.parentElement!.style.color = "#666";
+                                                        }}
+                                                    />
                                                 </div>
+                                            ) : (
+                                                <div style={{ width: "100%", textAlign: "center" }}>
+                                                    <div style={{ fontSize: "4rem", marginBottom: "1rem", animation: "pulse 1.5s infinite" }}>
+                                                        🎶 🕺 🔊
+                                                    </div>
 
-                                                <div style={{
-                                                    background: "rgba(255,255,255,0.5)",
-                                                    padding: "1rem",
-                                                    borderRadius: "1rem",
-                                                    display: "inline-block"
-                                                }}>
-                                                    <audio
-                                                        ref={mediaRef as React.RefObject<HTMLAudioElement>}
-                                                        controls
-                                                        autoPlay
-                                                        src={(currentItem as MusicEmojiItem).audio}
-                                                        style={{ width: "300px" }}
+                                                    <div
+                                                        style={{
+                                                            width: "100%",
+                                                            maxWidth: "520px",
+                                                            margin: "0 auto",
+                                                            padding: "14px",
+                                                            borderRadius: "18px",
+                                                            background: "linear-gradient(135deg, rgba(255,95,162,0.95), rgba(93,169,255,0.95))",
+                                                            boxShadow: "0 18px 40px rgba(0,0,0,0.20)",
+                                                        }}
                                                     >
-                                                        Ваш браузер не поддерживает аудио.
-                                                    </audio>
+                                                        <div
+                                                            style={{
+                                                                borderRadius: "14px",
+                                                                padding: "12px",
+                                                            }}
+                                                        >
+                                                            <audio
+                                                                ref={mediaRef}
+                                                                src={(currentItem as MusicEmojiItem).audio}
+                                                                controls
+                                                                autoPlay
+                                                                preload="auto"
+                                                                style={{
+                                                                    width: "100%",
+                                                                    height: "48px",
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <p style={{ marginTop: "0.5rem", fontSize: "0.9rem", color: "#666" }}>
-                                                    Играет фрагмент песни...
-                                                </p>
-                                            </div>
-                                        )}
 
-                                    </div>
-                                ) : (
-                                    <button
-                                        className="party-button party-btn-blue"
-                                        onClick={showAnswer}
-                                        style={{ fontSize: "1.2rem", padding: "1rem 2rem", marginTop: "2rem" }}
-                                    >
-                                        ПОКАЗАТЬ ОТВЕТ 👀
-                                    </button>
-                                )}
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <button
+                                            className="party-button party-btn-blue"
+                                            onClick={showAnswer}
+                                            style={{ fontSize: "1.2rem", padding: "1rem 2rem", marginTop: "2rem", width: "100%", maxWidth: "300px" }}
+                                        >
+                                            ПОКАЗАТЬ ОТВЕТ 👀
+                                        </button>
+                                    )}
+                                </div>
                             </div>
 
-                            {/* НАВИГАЦИЯ */}
-                            <div className="party-challenge-nav" style={{ marginTop: "3rem" }}>
-                                <button
-                                    className="party-button party-btn-gray"
-                                    style={{ color: "black" }}
-                                    onClick={handlePrevRound}
-                                    disabled={currentIndex === 0}
-                                >
-                                    ← Назад
-                                </button>
-                                <button
-                                    className="party-button party-btn-pink"
-                                    onClick={handleNextRound}
-                                >
-                                    СЛЕДУЮЩИЙ РАУНД →
-                                </button>
-                            </div>
-
-                        </div >
+                            {/* Кнопка следующего */}
+                            <button
+                                className="party-card-nav-button party-card-nav-next"
+                                onClick={handleNextRound}
+                                title="Следующий раунд"
+                                aria-label="Следующий раунд"
+                            >
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                            </button>
+                        </div>
                     ) : (
-                        /* КОНЕЦ ИГРЫ */
                         <div className="party-challenge-card" style={{ width: "100%", maxWidth: "700px", textAlign: "center", padding: "3rem" }}>
                             <h2 style={{ fontSize: "3rem", margin: "0 0 1rem" }}>🎉</h2>
                             <h3 style={{ fontSize: "2rem", marginBottom: "1rem" }}>
@@ -422,7 +466,6 @@ const EmojiGuessPage: React.FC<EmojiGuessPageProps> = ({
                                 <button
                                     className="party-button party-btn-blue"
                                     onClick={() => {
-                                        // Переключаем на другую вкладку если закончили одну, или просто остаемся здесь
                                         if (activeTab === "cartoons") handleTabChange("music");
                                         else handleTabChange("cartoons");
                                     }}
@@ -432,32 +475,21 @@ const EmojiGuessPage: React.FC<EmojiGuessPageProps> = ({
                             </div>
                         </div>
                     )}
-
-                    {/* Счёт */}
-                    <ScoreBoard
-                        stitchScore={stitchScore}
-                        hawaiiScore={hawaiiScore}
-                        setStitchScore={setStitchScore}
-                        setHawaiiScore={setHawaiiScore}
-                        team1Name={team1Name}
-                        team2Name={team2Name}
-                        style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: "2rem", marginTop: "1rem" }}
-                    />
-
                 </main>
             </div>
+
             <style>{`
-                @keyframes floatEmoji {
-                    0% { transform: translateY(0px) rotate(0deg); }
-                    50% { transform: translateY(-10px) rotate(2deg); }
-                    100% { transform: translateY(0px) rotate(0deg); }
-                }
-                @keyframes pulse {
-                    0% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.1); opacity: 0.8; }
-                    100% { transform: scale(1); opacity: 1; }
-                }
-            `}</style>
+        @keyframes floatEmoji {
+          0% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(2deg); }
+          100% { transform: translateY(0px) rotate(0deg); }
+        }
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.1); opacity: 0.8; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
         </div>
     );
 };
