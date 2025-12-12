@@ -48,9 +48,7 @@ const TeamsPage: React.FC<TeamsPageProps> = ({
   team2Emoji,
   setTeam2Emoji,
   stitchScore,
-  setStitchScore,
   hawaiiScore,
-  setHawaiiScore,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isEditing1, setIsEditing1] = useState(false);
