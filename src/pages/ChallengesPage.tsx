@@ -222,7 +222,7 @@ const ChallengesPage: React.FC<ChallengesPageProps> = ({
                     style={{ fontSize: "0.9rem", padding: "0.8rem 1.6rem", width: "100%" }}
                     onClick={() => navigate("/cups-challenge")}
                   >
-                    СТАКАНЧИКИ 🥤
+                    КОНКУРСЫ
                   </button>
                 )}
                 {currentChallenge.id === 3 && (

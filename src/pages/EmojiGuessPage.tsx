@@ -83,6 +83,112 @@ export const emojiCartoons: EmojiCartoonItem[] = [
         answer: "Головоломка",
         image: `${import.meta.env.BASE_URL}images/cartoons/inside-out.jpg`,
     },
+    {
+        id: "luca",
+        type: "cartoon",
+        emojis: ["👦", "🐟", "🛵", "🍦"],
+        answer: "Лука",
+        image: `${import.meta.env.BASE_URL}images/cartoons/luca.jpg`,
+    },
+    {
+        id: "cars",
+        type: "cartoon",
+        emojis: ["🏁", "🚦", "🚗"],
+        answer: "Тачки",
+        image: `${import.meta.env.BASE_URL}images/cartoons/cars.jpg`,
+    },
+    {
+        id: "moana",
+        type: "cartoon",
+        emojis: ["👧", "🌊", "🏝️", "⛵"],
+        answer: "Моана",
+        image: `${import.meta.env.BASE_URL}images/cartoons/moana.jpg`,
+    },
+    {
+        id: "boss-baby",
+        type: "cartoon",
+        emojis: ["👶", "👔", "💼", "🍼"],
+        answer: "Босс-молокосос",
+        image: `${import.meta.env.BASE_URL}images/cartoons/boss-baby.jpg`,
+    },
+    {
+        id: "zootopia",
+        type: "cartoon",
+        emojis: ["🦊", "🐰", "🚔"],
+        answer: "Зверополис",
+        image: `${import.meta.env.BASE_URL}images/cartoons/zootopia.jpg`,
+    },
+    {
+        id: "soul",
+        type: "cartoon",
+        emojis: ["👨🏾‍🦱", "🎹", "🐱"],
+        answer: "Душа",
+        image: `${import.meta.env.BASE_URL}images/cartoons/soul.jpg`,
+    },
+    {
+        id: "puss-in-boots",
+        type: "cartoon",
+        emojis: ["🐱", "👢"],
+        answer: "Кот в сапогах",
+        image: `${import.meta.env.BASE_URL}images/cartoons/puss-in-boots.jpg`,
+    },
+    {
+        id: "finding-nemo",
+        type: "cartoon",
+        emojis: ["🔍", "🐠"],
+        answer: "В поисках Немо",
+        image: `${import.meta.env.BASE_URL}images/cartoons/finding-nemo.jpg`,
+    },
+    {
+        id: "shrek",
+        type: "cartoon",
+        emojis: ["🟢", "😈", "😺", "🐴"],
+        answer: "Шрек",
+        image: `${import.meta.env.BASE_URL}images/cartoons/shrek.jpg`,
+    },
+    {
+        id: "the-good-dinosaur",
+        type: "cartoon",
+        emojis: ["👍", "🦕"],
+        answer: "Хороший динозавр",
+        image: `${import.meta.env.BASE_URL}images/cartoons/the-good-dinosaur.jpg`,
+    },
+    {
+        id: "brave",
+        type: "cartoon",
+        emojis: ["🏰", "👩‍🦰", "🏹"],
+        answer: "Храбрая сердцем",
+        image: `${import.meta.env.BASE_URL}images/cartoons/brave.jpg`,
+    },
+    {
+        id: "miraculous",
+        type: "cartoon",
+        emojis: ["🐞", "👦", "🐱", "⏰", "💪"],
+        answer: "Леди Баг и Супер-Кот",
+        image: `${import.meta.env.BASE_URL}images/cartoons/miraculous.jpg`,
+    },
+    {
+        id: "cheburashka",
+        type: "cartoon",
+        emojis: ["🐵", "🍊"],
+        answer: "Чебурашка",
+        image: `${import.meta.env.BASE_URL}images/cartoons/cheburashka.jpg`,
+    },
+    {
+        id: "the-little-mermaid",
+        type: "cartoon",
+        emojis: ["🧜‍♀️", "🐠", "🦀"],
+        answer: "Русалочка",
+        image: `${import.meta.env.BASE_URL}images/cartoons/the-little-mermaid.jpg`,
+    },
+    {
+        id: "hotel-transylvania",
+        type: "cartoon",
+        emojis: ["🏨", "🧛‍♂️", "👨", "❤️", "🧛‍♀️"],
+        answer: "Монстры на каникулах",
+        image: `${import.meta.env.BASE_URL}images/cartoons/hotel-transylvania.jpg`,
+    },
+
 ];
 
 // --- ДАННЫЕ ПЕСЕН ---
@@ -109,7 +215,7 @@ export const musicEmojiData: MusicEmojiItem[] = [
         audio: `${import.meta.env.BASE_URL}audio/songs/devocka-s-kartinki.mp3`,
     },
     {
-        emojis: ["1️⃣", "🌾", "🌾", "🗡️"],
+        emojis: ["1️⃣", "🌾", "🧍‍♂️", "🗡️"],
         answer: "Один в поле воин — Bearwolf",
         audio: `${import.meta.env.BASE_URL}audio/songs/odin-v-pole-voin.mp3`,
     },
@@ -119,7 +225,7 @@ export const musicEmojiData: MusicEmojiItem[] = [
         audio: `${import.meta.env.BASE_URL}audio/songs/carica.mp3`,
     },
     {
-        emojis: ["🤫", "🤫", "👦"],
+        emojis: ["🤫", "🗿", "👦"],
         answer: "Сигма бой — BETSY & Мария Янковская",
         audio: `${import.meta.env.BASE_URL}audio/songs/sigma-boi.mp3`,
     },
@@ -142,6 +248,56 @@ export const musicEmojiData: MusicEmojiItem[] = [
         emojis: ["👉", "➡️", "🕷️"],
         answer: "Человек-паук — POLI",
         audio: `${import.meta.env.BASE_URL}audio/songs/poli-spider-man.mp3`,
+    },
+    {
+        emojis: ["🤷‍♀️", "🦊", "🤕", "🐝"],
+        answer: "Do$hik — Лиса",
+        audio: `${import.meta.env.BASE_URL}audio/songs/doshik-lisa.mp3`,
+    },
+    {
+        emojis: ["🌸", "👩‍🦳", "👱‍♀️", "👩"],
+        answer: "Vlad Darwin — Три сестры",
+        audio: `${import.meta.env.BASE_URL}audio/songs/vlad-darwin-tri-sestry.mp3`,
+    },
+    {
+        emojis: ["🅰️", "🅿️", "✝️"],
+        answer: "ROSÉ & Bruno Mars — APT",
+        audio: `${import.meta.env.BASE_URL}audio/songs/rose-bruno-mars-apt.mp3`,
+    },
+    {
+        emojis: ["❤️", "💜", "💛", "💚", "💙"],
+        answer: "POLI — Сердечки",
+        audio: `${import.meta.env.BASE_URL}audio/songs/poli-serdechki.mp3`,
+    },
+    {
+        emojis: ["🦖", "🔥", "🏙️"],
+        answer: "Bearwolf — GODZILLA",
+        audio: `${import.meta.env.BASE_URL}audio/songs/bearwolf-godzilla.mp3`,
+    },
+    {
+        emojis: ["🤷‍♀️", "🍫", "👉", "🚗"],
+        answer: "Минаева — Шоколадка",
+        audio: `${import.meta.env.BASE_URL}audio/songs/minaeva-shokoladka.mp3`,
+    },
+    {
+        emojis: ["🦙", "🤱"],
+        answer: "A4 — Лама мама",
+        audio: `${import.meta.env.BASE_URL}audio/songs/a4-lama-mama.mp3`,
+    },
+    {
+        emojis: ["☁️", "4️⃣", "🇰"],
+        answer: "Марьяна Локель — Облака 4K",
+        audio: `${import.meta.env.BASE_URL}audio/songs/maryana-lokel-oblaka-4k.mp3`,
+    },
+    {
+        emojis: ["🔥", "❤️", "🚪"],
+        answer: "XOLIDAYBOY — Пожары",
+        audio: `${import.meta.env.BASE_URL}audio/songs/xolidayboy-pozhary.mp3`,
+    },
+    {
+        emojis: ["👦", "🚗", "9️⃣"],
+        answer: "Мальчик на девятке — DEAD BLONDE",
+        audio: `${import.meta.env.BASE_URL}audio/songs/dead-blonde-malchik-na-devyatke.mp3`,
     },
 ];
 
