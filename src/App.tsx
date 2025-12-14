@@ -8,6 +8,7 @@ import DanceBattlePage from "./pages/DanceBattlePage";
 import CupsChallengePage from "./pages/CupsChallengePage";
 import EmojiGuessPage from "./pages/EmojiGuessPage";
 import BirthdayQuizPage from "./pages/BirthdayQuizPage";
+import RepeatPhotoPage from "./pages/RepeatPhotoPage";
 
 type FloatingShape = {
     type: "circle" | "star" | "diamond" | "heart";
@@ -240,6 +241,19 @@ const App: React.FC = () => {
                     path="/dance-battle"
                     element={
                         <DanceBattlePage
+                            stitchScore={stitchScore}
+                            hawaiiScore={hawaiiScore}
+                            setStitchScore={setStitchScore}
+                            setHawaiiScore={setHawaiiScore}
+                            team1Name={team1Name}
+                            team2Name={team2Name}
+                        />
+                    }
+                />
+                <Route
+                    path="/photo-repeat"
+                    element={
+                        <RepeatPhotoPage
                             stitchScore={stitchScore}
                             hawaiiScore={hawaiiScore}
                             setStitchScore={setStitchScore}
