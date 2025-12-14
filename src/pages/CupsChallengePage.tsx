@@ -150,7 +150,6 @@ const CUP_ROUNDS: CupRound[] = [
                     <li>Если не совпало — роли меняются. Игра продолжается!</li>
                 </ol>
             </>
-
         ),
         pointsHint: "3 балла",
     },
@@ -170,11 +169,8 @@ const CUP_ROUNDS: CupRound[] = [
                     <li><strong>Побеждает тот, кто съел больше чипсин!</strong> 🏆</li>
                 </ol>
 
-                <p>
-                    Совет: хрустеть громко — это добавляет +1 к настроению 😄
-                </p>
+                <p>Совет: хрустеть громко — это добавляет +1 к настроению 😄</p>
             </>
-
         ),
         pointsHint: "3 балла",
     },
@@ -193,11 +189,8 @@ const CUP_ROUNDS: CupRound[] = [
                     <li><strong>Побеждает тот, кто набрал больше очков.</strong></li>
                 </ol>
 
-                <p>
-                    Совет: кидай мягко и точно 😉
-                </p>
+                <p>Совет: кидай мягко и точно 😉</p>
             </>
-
         ),
         pointsHint: "Столько баллов сколько очков набрал игрок",
     },
@@ -216,7 +209,6 @@ const CUP_ROUNDS: CupRound[] = [
 
                 <p>⚡ Не смейся — промахнёшься!</p>
             </>
-
         ),
         pointsHint: "5 баллов",
     },
@@ -234,11 +226,47 @@ const CUP_ROUNDS: CupRound[] = [
                     <li><strong>Кто первым схватил стакан — победил.</strong></li>
                 </ol>
 
-                <p>
-                    ⚠️ Не моргай — реакция решает всё!
-                </p>
+                <p>⚠️ Не моргай — реакция решает всё!</p>
             </>
+        ),
+        pointsHint: "4 балла",
+    },
+    {
+        id: 12,
+        title: "Раунд 12 — СЛЕПОЙ УДАР",
+        videoSrc: `${import.meta.env.BASE_URL}videos/cups/round12.mp4`,
+        description: (
+            <>
+                <h3>Правила игры</h3>
+                <ol>
+                    <li>Игроки встают по парам.</li>
+                    <li>Одному игроку <strong>завязывают глаза</strong> и дают мягкую палку.</li>
+                    <li>Второй игрок становится напротив и держит перед собой тарелку.</li>
+                    <li>
+                        Игрок с палкой <strong>выбирает часть тела</strong> (рука, плечо, нога и т.д.)
+                        и аккуратно пытается ударить.
+                    </li>
+                    <li>
+                        Задача второго игрока — <strong>угадать, куда будет удар</strong>, и <strong>прикрыть это место тарелкой</strong>.
+                    </li>
+                    <li>Если тарелка оказалась на нужном месте — защита успешна 🛡️</li>
+                </ol>
 
+                <h3 style={{ marginTop: "1rem" }}>Подсчёт очков</h3>
+                <ul>
+                    <li>На пару даётся <strong>5 попыток</strong></li>
+                    <li>✅ Угадал и прикрыл — <strong>1 балл</strong></li>
+                    <li>❌ Не угадал — <strong>0 баллов</strong></li>
+                </ul>
+
+                <p>
+                    👉 После 5 ударов игроки <strong>меняются ролями</strong>
+                    <br />
+                    👉 Побеждает команда с <strong>большим общим счётом</strong> 🏆
+                </p>
+
+                <p>⚠️ Играем аккуратно — здесь важнее реакция, интуиция и веселье 😄</p>
+            </>
         ),
         pointsHint: "4 балла",
     },
@@ -272,9 +300,7 @@ const CupsChallengePage: React.FC<CupsChallengePageProps> = ({
     }, []);
 
     const handleNextRound = () => {
-        setCurrentRoundIndex((prev) =>
-            prev === CUP_ROUNDS.length - 1 ? prev : prev + 1
-        );
+        setCurrentRoundIndex((prev) => (prev === CUP_ROUNDS.length - 1 ? prev : prev + 1));
     };
 
     const handlePrevRound = () => {
@@ -284,7 +310,6 @@ const CupsChallengePage: React.FC<CupsChallengePageProps> = ({
     return (
         <div className={`party-challenges-page party-fade-in ${isVisible ? "party-fade-in-visible" : ""}`}>
             <div className="party-challenges-inner" style={{ flexDirection: "column", alignItems: "center" }}>
-
                 {/* Хедер с навигацией и заголовком */}
                 <ChallengeHeader title="Конкурсы на ваш вкус" />
 
@@ -300,10 +325,28 @@ const CupsChallengePage: React.FC<CupsChallengePageProps> = ({
                     />
                 </div>
 
-                <main className="party-main" style={{ flexDirection: "column", gap: "2rem", width: "100%" }}>
-
+                {/* ✅ Центруем карточку по центру экрана */}
+                <main
+                    className="party-main"
+                    style={{
+                        minHeight: "100vh",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "100%",
+                    }}
+                >
                     {/* Контейнер с карточкой и кнопками навигации */}
-                    <div style={{ position: "relative", width: "100%", maxWidth: "800px", margin: "0 auto" }}>
+                    <div
+                        style={{
+                            position: "relative",
+                            width: "100%",
+                            maxWidth: "800px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
                         {/* Кнопка предыдущего раунда */}
                         <button
                             className="party-card-nav-button party-card-nav-prev"
@@ -318,7 +361,7 @@ const CupsChallengePage: React.FC<CupsChallengePageProps> = ({
                         </button>
 
                         {/* Карточка текущего раунда */}
-                        <section className="party-challenge-card">
+                        <section className="party-challenge-card" style={{ width: "100%", minHeight: "520px" }}>
                             <div className="party-dance-round-header">
                                 <div className="party-challenge-indicator">
                                     Раунд {currentRoundIndex + 1} из {CUP_ROUNDS.length}
@@ -326,7 +369,10 @@ const CupsChallengePage: React.FC<CupsChallengePageProps> = ({
                                 <h3 className="party-challenge-title">{currentRound.title}</h3>
                             </div>
 
-                            <div className="party-dance-video-wrapper" style={{ marginTop: "1rem", borderRadius: "1rem", overflow: "hidden", background: "#000" }}>
+                            <div
+                                className="party-dance-video-wrapper"
+                                style={{ marginTop: "1rem", borderRadius: "1rem", overflow: "hidden", background: "#000" }}
+                            >
                                 <video
                                     key={currentRound.videoSrc}
                                     className="party-dance-video"
@@ -341,9 +387,7 @@ const CupsChallengePage: React.FC<CupsChallengePageProps> = ({
                             <div className="party-challenge-description party-text" style={{ marginTop: "1.5rem" }}>
                                 {currentRound.description}
                             </div>
-                            <p className="party-challenge-points-hint">
-                                {currentRound.pointsHint}
-                            </p>
+                            <p className="party-challenge-points-hint">{currentRound.pointsHint}</p>
                         </section>
 
                         {/* Кнопка следующего раунда */}
@@ -359,8 +403,6 @@ const CupsChallengePage: React.FC<CupsChallengePageProps> = ({
                             </svg>
                         </button>
                     </div>
-
-
                 </main>
             </div>
         </div>
